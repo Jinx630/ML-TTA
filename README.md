@@ -17,7 +17,8 @@ text_data: save text description base pkl files
 utils: tools files
 ```
 
-#### **Training and Testing:**
-```
+# **Training and Testing:**
+
+```bash
 bash scripts/test_tpt_clip.sh 0 1 coco2014 1
 ```
