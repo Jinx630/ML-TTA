@@ -1,5 +1,7 @@
 # Multi-Label Test-Time Adaptation with Bound Entropy Minimization
 
+
+```bash
 clip: open-ai clip files
 
 configs: configs
@@ -13,7 +15,9 @@ script: sh files
 text_data: save text description base pkl files
 
 utils: tools files
+```
 
-# Training and Testing
-
-**bash scripts/test_tpt_clip.sh 0 1 coco2014 1**
+#### **Training and Testing:**
+```
+bash scripts/test_tpt_clip.sh 0 1 coco2014 1
+```
