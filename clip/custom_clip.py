@@ -272,27 +272,6 @@ class ClipTestTimeTuning(nn.Module):
         labels_names = [self.cls_list[i.item()] for i in top_sims_idx]
         labels_names_unique = [self.cls_list[i.item()] for i in top_sims_idx_unique]
 
-        # if self.is_bind:
-        #     # 对于 logits_neg 的处理
-        #     top_k_values_neg, top_k_indices_neg = torch.topk(logits_neg, len(labels_names_unique[0]), dim=1)
-        #     max_values_neg = top_k_values_neg[:, -1].unsqueeze(1)  # 获取每个batch的最大值
-        #     logits_neg.scatter_(1, top_k_indices_neg, max_values_neg)
-
-        #     # 对于 logits 的处理，只处理每隔16个
-        #     top_k_values, top_k_indices = torch.topk(logits[::16], len(labels_names[0]), dim=1)
-        #     max_values = top_k_values[:, -1].unsqueeze(1)  # 获取每个batch的最大值
-        #     logits[::16].scatter_(1, top_k_indices, max_values)
-
-        # if self.is_bind:
-        #     for i, k in enumerate(labels_names_unique):
-        #         top_k_values, top_k_indices = torch.topk(logits_neg[i], len(k))
-        #         max_value = top_k_values.max()
-        #         logits_neg[i, top_k_indices] = max_value
-        #     for i, k in enumerate(labels_names[::16]):
-        #         top_k_values, top_k_indices = torch.topk(logits[i], 5)
-        #         max_value = top_k_values.max()
-        #         logits[i, top_k_indices] = max_value
-
         if self.is_bind:
             for i, k in enumerate(labels_names_unique):
                 top_k_values, top_k_indices = torch.topk(logits_neg[i], len(k))

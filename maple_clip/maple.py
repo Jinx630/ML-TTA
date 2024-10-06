@@ -724,28 +724,16 @@ class CustomCLIP(nn.Module):
 
         labels_names = [self.cls_list[i.item()] for i in top_sims_idx]
         labels_names_unique = [self.cls_list[i.item()] for i in top_sims_idx_unique]
-        # labels = torch.zeros((len(logits_neg), len(self.prompt_learner.classnames)), dtype=torch.float32).to(logits_neg.device)
-        # for i, names in enumerate(labels_names):
-        #     for na in names:
-        #         labels[i, self.prompt_learner.classnames.index(na)] = 1
                 
         if self.is_bind:
             for i, k in enumerate(labels_names_unique):
                 top_k_values, top_k_indices = torch.topk(logits_neg[i], len(k))
-                max_value = top_k_values.max()
-                logits_neg[i, top_k_indices] = max_value
-                # max_k = max(max_k, len(k))
+                max_value = (top_k_values.max() - top_k_values).detach()
+                logits_neg[i, top_k_indices] += max_value
             for i, k in enumerate(labels_names[::16]):
                 top_k_values, top_k_indices = torch.topk(logits[i], len(k))
-                max_value = top_k_values.max()
-                logits[i, top_k_indices] = max_value
-                # max_k = max(max_k, len(k))
-            
-        # top5_indices = logits.topk(max_k, dim=1)[1]
-        # mask = torch.zeros_like(logits)
-        # for i in range(logits.shape[0]):
-        #     mask[i, top5_indices[i]] = 1
-        # logits = torch.where(mask == 1, logits.max(dim=1, keepdim=True)[0].expand_as(logits), logits)
+                max_value = (top_k_values.max() - top_k_values).detach()
+                logits[i, top_k_indices] += max_value
 
         return logits, logits_neg
 
